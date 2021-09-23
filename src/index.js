@@ -9,6 +9,7 @@ const store = createStore(movies);
 console.log('Store', store);
 // console.log('before state', store.getState());
 
+// below code use where our data to be shown
 // store.dispatch({
 //   type : 'ADD_MOVIES',
 //   movies :[{name : 'superman'}]
