@@ -13,9 +13,11 @@ class  App extends React.Component {
     })
     // make api call
     // dipatch action here
-    store.dispatch(addMovies(data))
+    store.dispatch(addMovies(data));
   }
-
+  isMovieFavourite = (movie) => {
+    const {favourite} = this.props.store.getState();
+  }
   render (){
   const {list} = this.props.store.getState();
     return (
