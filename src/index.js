@@ -6,7 +6,7 @@ import App from './components/App';
 import movies from './reducers';
 
 const store = createStore(movies);
-console.log('Store', store);
+// console.log('Store', store);
 // console.log('before state', store.getState());
 
 // below code use where our data to be shown
