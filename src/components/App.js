@@ -16,8 +16,8 @@ class  App extends React.Component {
     store.dispatch(addMovies(data));
   }
   isMovieFavourite = (movie) => {
-    const {favourites} = this.props.store.getState();
-    const index = favourites.indexOf(movie);
+    const {movies} = this.props.store.getState();
+    const index = movies.favourites.indexOf(movie);
 
     if(index !== -1){
       // found favourite movies
@@ -27,11 +27,12 @@ class  App extends React.Component {
   }
   onChangeTab = (val) => {
     this.props.store.dispatch(setShowFavourite(val));
+    console.log(val);
   }
   render (){
-  const {list, favourites, showFavourites} = this.props.store.getState();
-  // console.log("list", list);
-  console.log("Render Again", this.props.store.getState());
+    const {movies} = this.props.store.getState();
+    const {list, favourites, showFavourites} = movies;
+    console.log("Render Again", this.props.store.getState());
 
     const displayMovies = showFavourites ? favourites : list;
     return (
