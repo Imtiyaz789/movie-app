@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
@@ -47,10 +47,14 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // })
 // console.log('after state', store.getState());
 
+// we can use contexApi for passing our props directly to any components
+export const StoreContext = createContext();
+console.log(StoreContext);
+
 ReactDOM.render(
-  <React.StrictMode>
+  <StoreContext.Provider store={store}>
     <App store = {store}/>
-  </React.StrictMode>,
+  </StoreContext.Provider>,
   document.getElementById('root')
 );
 
