@@ -50,11 +50,50 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // we can use contexApi for passing our props directly to any components
 export const StoreContext = createContext();
 console.log(StoreContext);
+// we can create our own Provider component and pass through the app.
+class Provider extends React.Component{
+  render(){
+    const {store} = this.props;
+    return <StoreContext.Provider value={store}>
+      {this.props.children}
+    </StoreContext.Provider>
+  }
+}
+// const connectedAppComponent = connect(callback)(App);
+export function connect (callback){
+  return function (Component) {
+    class ConnectedComponent extends React.Component{
+      render(){
+        return <StoreContext.Consumer>
+          {
+            (store) => {
+              const state = store.getState;
+              const dataToBePassedAsProps = callback(state);
+              return <Component {...dataToBePassedAsProps} dispatch={store.dispatch} />
+            }
+          }
+        </StoreContext.Consumer>
+      }
+    };
+    // we need to create a wrapper to pass store as props in above ConnectedComponent()
+      class ConnectedComponentWrapper extends React.Component{
+        render(){
+          return (
+            <StoreContext.Consumer>
+              {(store) => <ConnectedComponent store={store}/> }
+            </StoreContext.Consumer>
+          )
+        }
+      }
+      return ConnectedComponentWrapper;
+  };
+}
+
 
 ReactDOM.render(
-  <StoreContext.Provider store={store}>
-    <App store = {store}/>
-  </StoreContext.Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 

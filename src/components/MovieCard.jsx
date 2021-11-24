@@ -19,7 +19,9 @@ export default class MovieCard extends Component {
                     <img alt="Movie images" src={movie.Poster}/>
                 </div>
                 <div className="right">
-                    <div className="title">{movie.Title}</div>
+                    <div className="title">{movie.Title} ({movie.Year})</div>
+                    <div className="plot"><h5>Released at : {movie.Released}</h5></div>
+
                     <div className="plot">{movie.Plot}</div>
                     <div className="footer">
                         <div className="rating">{movie.imdbRating}</div>
