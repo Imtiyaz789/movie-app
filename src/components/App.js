@@ -3,21 +3,21 @@ import MovieCard from "./MovieCard";
 import Navbar from "./Navbar";
 import {data} from '../data';
 import { addMovies, setShowFavourite } from "../actions";
-import {StoreContext} from '../index';
+import { connect } from 'react-redux';
 
 class  App extends React.Component {
   componentDidMount(){
-    const {store} = this.props;
-    store.subscribe(()=> {
-      console.log('updated');
-      this.forceUpdate();
-    })
+    // const {store} = this.props;
+    // store.subscribe(()=> {
+    //   console.log('updated');
+    //   this.forceUpdate();
+    // })
     // make api call
     // dipatch action here
-    store.dispatch(addMovies(data));
+    this.props.dispatch(addMovies(data));
   }
   isMovieFavourite = (movie) => {
-    const {movies} = this.props.store.getState();
+    const {movies} = this.props;
     const index = movies.favourites.indexOf(movie);
 
     if(index !== -1){
@@ -27,13 +27,14 @@ class  App extends React.Component {
     return false;
   }
   onChangeTab = (val) => {
-    this.props.store.dispatch(setShowFavourite(val));
+    this.props.dispatch(setShowFavourite(val));
     console.log(val);
   }
   render (){
-    const {movies, search} = this.props.store.getState();
+    const {movies, search} = this.props;
+    // console.log(movies);
     const {list, favourites, showFavourites} = movies;
-    console.log("Render Again", this.props.store.getState());
+    // console.log("Render List", list);
 
     const displayMovies = showFavourites ? favourites : list;
     return (
@@ -50,7 +51,7 @@ class  App extends React.Component {
               <MovieCard 
                 movie={movie} 
                 key={`movies-${index}`} 
-                dispatch={this.props.store.dispatch} 
+                dispatch={this.props.dispatch} 
                 isFavourite ={this.isMovieFavourite(movie)} 
               />
             ))}
@@ -71,11 +72,11 @@ class  App extends React.Component {
 //   }
 // }
 
-function callback(state) {
+function mapStatesToProps(state) {
   return{
     movies : state.movies,
     search : state.search,
   } 
 }
-const connectedAppComponent = connect(callback)(App);
+const connectedAppComponent = connect(mapStatesToProps)(App);
 export default connectedAppComponent;

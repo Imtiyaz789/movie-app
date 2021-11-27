@@ -36,12 +36,12 @@ export function addMovieToList(movie){
         movie
     }
 }
-export function handleMovieSearch (movie){
-    const url = `http://www.omdbapi.com/?apikey=3ced48de&t=${movie}`;
+export function handleMovieSearch (searchText){
+    const url = `http://www.omdbapi.com/?apikey=3ced48de&t=${searchText}`;
     return function (dispatch){
         fetch(url)
-        .then(response => response.json())
-        .then(movie => {
+        .then((response) => response.json())
+        .then((movie) => {
             console.log('movie', movie);
             // dispatch action here
             dispatch(addMovieSearchResult(movie));
